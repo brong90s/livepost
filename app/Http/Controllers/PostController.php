@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
@@ -13,22 +13,20 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return PostCollection
      */
     public function index()
     {
         // $posts = Post::query()->where('id', '=', '1')->get();
         $posts = Post::query()->get();
-        return new JsonResponse([
-            'data' => $posts
-        ]);
+        return PostResource::collection($posts);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonReponse
+     * @return PostResource
      */
     public function store(Request $request)
     {
@@ -46,9 +44,7 @@ class PostController extends Controller
             return $created;
         });
 
-        return new JsonResponse([
-            'data' => $created
-        ]);
+        return new PostResource($created);
     }
 
     /**
@@ -56,13 +52,11 @@ class PostController extends Controller
      *
      * @param  \App\Models\Post  $post
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonReponse
+     * @return PostResource
      */
     public function show(Post $post)
     {
-        return new JsonResponse([
-            'data' => $post
-        ]);
+        return new PostResource($post);
     }
 
     /**
@@ -70,7 +64,7 @@ class PostController extends Controller
      *
      * @param  \App\Models\Post  $post
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonReponse
+     * @return PostResource
      */
     public function update(Request $request, Post $post)
     {
@@ -86,9 +80,7 @@ class PostController extends Controller
                 ]
             ], 400);
         };
-        return new JsonResponse([
-            'data' => $post
-        ]);
+        return new PostResource($post);
     }
 
     /**
