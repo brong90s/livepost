@@ -14,33 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/users', function (Request $request) {
-    return new \Illuminate\Http\JsonResponse([
-        'data' => 'aaaa'
-    ]);
-});
+// Route::apiResource('users', \App\Http\Controllers\UserController::class);
 
-Route::get('/users/{id}', function (\App\Models\User $id) {
-    return new \Illuminate\Http\JsonResponse([
-        'data' => $id
-    ]);
-});
-
-Route::post('/users/{id}', function (\App\Models\User $id) {
-    return new \Illuminate\Http\JsonResponse([
-        'data' => 'posted'
-    ]);
-});
-Route::patch('/users/{id}', function (\App\Models\User $id) {
-    return new \Illuminate\Http\JsonResponse([
-        'data' => 'patch'
-    ]);
-});
-Route::delete('/users/{id}', function (\App\Models\User $id) {
-    return new \Illuminate\Http\JsonResponse([
-        'data' => 'deleted'
-    ]);
-});
+Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
+Route::get('/users/{user}', [\App\Http\Controllers\UserController::class, 'show']);
+Route::post('/users', [\App\Http\Controllers\UserController::class, 'store']);
+Route::patch('/users/{user}', [\App\Http\Controllers\UserController::class, 'update']);
+Route::delete('/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
